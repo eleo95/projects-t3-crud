@@ -13,7 +13,7 @@ COPY . .
 RUN npx prisma generate
 RUN npm run build
 
-FROM arm64v8/:16-slim AS deploy
+FROM arm64v8/node:16-slim AS deploy
 
 WORKDIR /app
 
