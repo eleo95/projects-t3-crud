@@ -1,10 +1,11 @@
-FROM arm64v8/node:16-alpine AS dependencies
+FROM arm64v8/node:16.16.0-slim AS dependencies
 
 WORKDIR /app
 COPY package.json package-lock.json ./
+RUN npm install -g npm@latest
 RUN npm install
 
-FROM arm64v8/node:16-alpine AS build
+FROM arm64v8/node:16.16.0-slim AS build
 
 WORKDIR /app
 COPY --from=dependencies /app/node_modules ./node_modules
@@ -13,7 +14,7 @@ COPY . .
 RUN npx prisma generate
 RUN npm run build
 
-FROM arm64v8/node:16-alpine AS deploy
+FROM arm64v8/node:16.16.0-slim AS deploy
 
 WORKDIR /app
 
